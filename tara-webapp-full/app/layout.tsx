@@ -1,17 +1,14 @@
-import '../styles/globals.css'
-import { ClerkProvider } from '@clerk/nextjs'
-
-export const metadata = {
-  title: 'Tara – Gentle Companion',
-  description: 'Presence. Healing. Loving action.'
-}
+import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>
-        <ClerkProvider>{children}</ClerkProvider>
+      <body className="text-espresso">
+        <ClerkProvider>
+          {children}
+        </ClerkProvider>
       </body>
     </html>
-  )
+  );
 }
