@@ -1,3 +1,14 @@
+// lib/prisma.ts
 import { PrismaClient } from '@prisma/client'
-export const prisma = globalThis.prisma || new PrismaClient()
-if (process.env.NODE_ENV !== 'production') (globalThis as any).prisma = prisma
+
+declare global {
+  // allow global `prisma` in dev to avoid hot-reload duplicates
+  // eslint-disable-next-line no-var
+  var prisma: PrismaClient | undefined
+}
+
+export const prisma = global.prisma ?? new PrismaClient()
+
+if (process.env.NODE_ENV !== 'production') {
+  global.prisma = prisma
+}
