@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base */
+:root { color-scheme: light; }
+html, body { height: 100%; background: #EDE7DE; }
+
+/* Brand helpers */
+.h1 { @apply text-4xl md:text-5xl font-semibold leading-tight; }
+.h2 { @apply text-3xl font-semibold; }
+.muted { @apply opacity-80; }
+.card { @apply rounded-2xl border bg-white/60 shadow-sm; }
