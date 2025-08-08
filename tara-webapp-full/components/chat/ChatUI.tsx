@@ -1,4 +1,3 @@
-// components/chat/ChatUI.tsx
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -13,7 +12,7 @@ export default function ChatUI() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [sending, setSending] = useState(false);
 
-  // auto-scroll
+  // auto-scroll to bottom when messages change
   useEffect(() => {
     const el = scrollerRef.current;
     if (el) el.scrollTop = el.scrollHeight;
@@ -22,32 +21,36 @@ export default function ChatUI() {
   async function send() {
     const content = input.trim();
     if (!content) return;
+
     setInput("");
     const next: Msg[] = [...messages, { role: "user" as const, content }];
     setMessages(next);
     setSending(true);
 
-   try {
-  const res = await fetch("/api/chat", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ intention, messages: next }),
-  });
-  if (!res.ok) throw new Error("Chat failed");
-  const data = await res.json(); // expecting { reply: string }
-  setMessages((m) => [
-    ...m,
-    { role: "assistant" as const, content: data.reply || "…" },
-  ]);
-} catch (e) {
-  setMessages((m) => [
-    ...m,
-    { role: "assistant" as const, content: "Sorry, something went wrong. Try again." },
-  ]);
-} finally {
-  setSending(false);
-}
-
+    try {
+      const res = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ intention, messages: next }),
+      });
+      if (!res.ok) throw new Error("Chat failed");
+      const data = await res.json(); // { reply: string }
+      setMessages((m) => [
+        ...m,
+        { role: "assistant" as const, content: data.reply || "…" },
+      ]);
+    } catch (e) {
+      setMessages((m) => [
+        ...m,
+        {
+          role: "assistant" as const,
+          content: "Sorry, something went wrong. Try again.",
+        },
+      ]);
+    } finally {
+      setSending(false);
+    }
+  }
 
   function onKey(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
