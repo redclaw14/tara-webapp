@@ -27,24 +27,27 @@ export default function ChatUI() {
     setMessages(next);
     setSending(true);
 
-    try {
-      const res = await fetch("/api/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ intention, messages: next }),
-      });
-      if (!res.ok) throw new Error("Chat failed");
-      const data = await res.json(); // expecting { reply: string }
-      setMessages((m) => [...m, { role: "assistant", content: data.reply || "…" }]);
-    } catch (e) {
-      setMessages((m) => [
-        ...m,
-        { role: "assistant", content: "Sorry, something went wrong. Try again." },
-      ]);
-    } finally {
-      setSending(false);
-    }
-  }
+   try {
+  const res = await fetch("/api/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ intention, messages: next }),
+  });
+  if (!res.ok) throw new Error("Chat failed");
+  const data = await res.json(); // expecting { reply: string }
+  setMessages((m) => [
+    ...m,
+    { role: "assistant" as const, content: data.reply || "…" },
+  ]);
+} catch (e) {
+  setMessages((m) => [
+    ...m,
+    { role: "assistant" as const, content: "Sorry, something went wrong. Try again." },
+  ]);
+} finally {
+  setSending(false);
+}
+
 
   function onKey(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
