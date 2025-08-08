@@ -11,7 +11,7 @@ export default function ChatWindow(){
   async function send(){
     const content = inputRef.current?.value?.trim()
     if (!content) return
-    const next = [...messages, { role: 'user', content }]
+    const next: Msg[] = [...messages, { role: 'user' as const, content }]
     setMessages(next)
 
     const res = await fetch('/api/chat', {
