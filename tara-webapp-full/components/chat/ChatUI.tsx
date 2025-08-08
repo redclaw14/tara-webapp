@@ -23,7 +23,7 @@ export default function ChatUI() {
     const content = input.trim();
     if (!content) return;
     setInput("");
-    const next = [...messages, { role: "user", content }];
+    const next: Msg[] = [...messages, { role: "user" as const, content }];
     setMessages(next);
     setSending(true);
 
