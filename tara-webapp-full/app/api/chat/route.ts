@@ -1,11 +1,9 @@
-export const runtime = 'nodejs'
-
 import { NextRequest } from 'next/server'
 import { requireAuth } from '@/lib/auth'
 import { callN8NChat } from '@/lib/n8n'
 import { ssePassthrough } from '@/lib/ai'
 
-export const runtime = 'edge'
+export const runtime = 'nodejs'
 
 export async function POST(req: NextRequest){
   await requireAuth()
