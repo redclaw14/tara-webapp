@@ -1,6 +1,13 @@
-generator client { provider = "prisma-client-js" }
+generator client {
+  provider = "prisma-client-js"
+}
 
-datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // optional but nice to have if you set DIRECT_URL in Vercel later:
+  // directUrl = env("DIRECT_URL")
+}
 
 model User {
   id        String   @id
@@ -91,3 +98,4 @@ model FeatureFlag {
   key     String @id
   enabled Boolean @default(false)
 }
+
