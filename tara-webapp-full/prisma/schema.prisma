@@ -1,0 +1,93 @@
+generator client { provider = "prisma-client-js" }
+
+datasource db { provider = "postgresql"; url = env("DATABASE_URL") }
+
+model User {
+  id        String   @id
+  email     String?  @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  profile   Profile?
+  sessions  Session[]
+  messages  Message[]
+  journals  JournalEntry[]
+}
+
+model Profile {
+  id             String   @id @default(cuid())
+  userId         String   @unique
+  user           User     @relation(fields: [userId], references: [id])
+  name           String?
+  locale         String?
+  timezone       String?
+  focusArea      String?
+  emotionalStory String?
+  goals          String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  title     String?
+  meta      Json?
+  createdAt DateTime @default(now())
+  messages  Message[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  sessionId String
+  session   Session  @relation(fields: [sessionId], references: [id])
+  userId    String?
+  role      String
+  text      String?
+  audioUrl  String?
+  data      Json?
+  createdAt DateTime @default(now())
+}
+
+model JournalEntry {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  mood      String?
+  tags      String[] @default([])
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Journey {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  summary   String?
+  steps     JourneyStep[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model JourneyStep {
+  id         String   @id @default(cuid())
+  journeyId  String
+  journey    Journey  @relation(fields: [journeyId], references: [id])
+  order      Int
+  kind       String
+  content    String
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  userId    String?
+  name      String
+  payload   Json?
+  createdAt DateTime @default(now())
+}
+
+model FeatureFlag {
+  key     String @id
+  enabled Boolean @default(false)
+}
