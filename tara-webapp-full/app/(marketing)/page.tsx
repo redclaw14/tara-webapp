@@ -38,7 +38,7 @@ export default function Page() {
                 affirmation, and gently integrate what matters.
               </p>
               <div className="mt-8 flex flex-col sm:flex-row gap-3">
-                <Link href="/app/chat" className="rounded-2xl border px-5 py-3 text-center">
+                <Link href="/chat" className="rounded-2xl border px-5 py-3 text-center">
                   Launch App
                 </Link>
                 <a
@@ -196,7 +196,7 @@ export default function Page() {
         <h2 className="text-3xl font-semibold">Begin your gentle ritual</h2>
         <p className="opacity-80 mt-2">Two minutes can change your day.</p>
         <div className="mt-6">
-          <Link href="/app/chat" className="rounded-2xl border px-6 py-3">
+          <Link href="/chat" className="rounded-2xl border px-6 py-3">
             Launch App
           </Link>
         </div>
