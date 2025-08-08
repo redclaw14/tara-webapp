@@ -5,7 +5,7 @@ export default function Page() {
     <main className="min-h-screen flex flex-col items-center justify-center gap-6 text-center p-6">
       <h1 className="text-4xl font-semibold">Tara – Your Gentle Companion</h1>
       <p className="max-w-xl opacity-80">Presence. Healing. Loving action. Start your daily ritual.</p>
-      <Link href="/app/chat" className="border rounded-2xl px-5 py-3">Launch App</Link>
+      <Link href="/chat" ...>Launch App</Link>
     </main>
   )
 }
